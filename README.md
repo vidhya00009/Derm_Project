@@ -1,4 +1,4 @@
-![image](https://github.com/vidhya00009/Derm_Project/assets/150995591/02d77336-422d-4bab-9208-46b907cde3d5)![image](https://github.com/vidhya00009/Derm_Project/assets/150995591/60827444-4bed-40d1-8541-cc1ea0dafd9e)
+
 ![image](https://github.com/vidhya00009/Derm_Project/assets/150995591/303e927b-aa77-4160-9c06-f9688c86f548)
 ![image](https://github.com/vidhya00009/Derm_Project/assets/150995591/06c1c0cd-7841-4e4d-a8c4-280b6d605c8a)
 
