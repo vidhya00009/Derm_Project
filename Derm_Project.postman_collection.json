@@ -1,0 +1,1270 @@
+{
+	"info": {
+		"_postman_id": "8231bec9-78b7-43d9-a25a-83662b5e8ba4",
+		"name": "Derm_Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34340238"
+	},
+	"item": [
+		{
+			"name": "Load Static Files_All",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 204\", function () {\r",
+							"  pm.expect(pm.response.code).to.eql(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"topology\": {\r\n     \"src\": \"{{PostData_FolderPath}}sample_file_0_1.json\",\r\n       \"type\": \"json\",\r\n      \"version\": 0\r\n         },\r\n   \"readingslocations\": {\r\n     \"src\": \"{{PostData_FolderPath}}ReadingLocations_1_5.csv\",\r\n     \"type\": \"csv\",\r\n     \"version\": 0\r\n     },\r\n  \"readingshistory\": {\r\n    \"src\": \"{{PostData_FolderPath}}ReadingHistory_1_5.csv\",\r\n    \"type\": \"csv\",\r\n    \"version\": 0\r\n  },\r\n       \"weatherlocations\": {\r\n         \"src\": \"{{PostData_FolderPath}}WeatherLocation.csv\",\r\n        \"type\": \"csv\",\r\n         \"version\": 0\r\n       },\r\n       \"weatherhistory\": {\r\n         \"src\": \"{{PostData_FolderPath}}weatherHistory.csv\",\r\n         \"type\": \"csv\",\r\n         \"version\": 0\r\n      },\r\n       \"endpointmodels\": {\r\n       \"src\": \"{{PostData_FolderPath}}EndpointModel.csv\",\r\n        \"type\": \"csv\",\r\n         \"version\": 0\r\n       }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/StaticFiles",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"StaticFiles"
+					]
+				},
+				"description": "Put api for upload static data"
+			},
+			"response": []
+		},
+		{
+			"name": "Load Static Files_All_mappings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 204\", function () {\r",
+							"  pm.expect(pm.response.code).to.eql(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/StaticFiles/mappings",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"StaticFiles",
+						"mappings"
+					]
+				},
+				"description": "Put api for upload static data"
+			},
+			"response": []
+		},
+		{
+			"name": "Readings History_All",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"varReadingHistoryCount =  pm.environment.get(\"ReadingHistoryCount\");\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(ReadingHistoryCount);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/ReadingsHistory",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"ReadingsHistory"
+					]
+				},
+				"description": "Get Reading history response and validation"
+			},
+			"response": []
+		},
+		{
+			"name": "Readings History_ByID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"const RHSampleId =  parseInt(pm.environment.get(\"RHSampleId\"));\r",
+							"const RHGeneralLoad =  parseFloat(pm.environment.get(\"RHgeneralLoad\"));\r",
+							"const RHControllableLoad = parseFloat(pm.environment.get(\"RHcontrollableLoad\"))\r",
+							"\r",
+							"var data = pm.response.json();\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(data.sampleId).to.equal(RHSampleId);\r",
+							"  pm.expect(data.generalLoad).to.equal(RHGeneralLoad);\r",
+							"  pm.expect(data.controllableLoad).to.equal(RHControllableLoad);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/ReadingsHistory/1/1277933400",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"ReadingsHistory",
+						"1",
+						"1277933400"
+					]
+				},
+				"description": "Reading history validation for given sample id and timestamp"
+			},
+			"response": []
+		},
+		{
+			"name": "Readings Locations_All",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"var RHCount = parseInt(pm.environment.get(\"ReadingsLocationCount\"))\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(RHCount);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/ReadingsLocations",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"ReadingsLocations"
+					]
+				},
+				"description": "validationg Readings locations response code and count"
+			},
+			"response": []
+		},
+		{
+			"name": "Readings Locations_ByID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var data = pm.response.json();\r",
+							"const RLsampleId = parseInt(pm.environment.get(\"RLsampleID\"))\r",
+							"const RLsampleType = parseInt(pm.environment.get(\"RLsampleType\"))\r",
+							"const RLmaxDemand = parseInt(pm.environment.get(\"RLmaxDemand\"))\r",
+							"const RLmaxSolarCapacity = parseFloat(pm.environment.get(\"RLmaxSolarCapacity\"))\r",
+							"const RLmaxControllable = parseInt(pm.environment.get(\"RLmaxControllable\"))\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(data.sampleID).to.equal(RLsampleId);\r",
+							"  pm.expect(data.sampleType).to.equal(RLsampleType);\r",
+							"  pm.expect(data.maxDemand).to.equal(RLmaxDemand);\r",
+							"  pm.expect(data.maxControllable).to.equal(RLmaxControllable);\r",
+							"  pm.expect(data.maxSolarCapacity).to.equal(RLmaxSolarCapacity);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/ReadingsLocations/5",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"ReadingsLocations",
+						"5"
+					]
+				},
+				"description": "Readings location validation for given sample id"
+			},
+			"response": []
+		},
+		{
+			"name": "Weather History_All",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(5512);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/WeatherHistory",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"WeatherHistory"
+					]
+				},
+				"description": "Weather history validation with count and response"
+			},
+			"response": []
+		},
+		{
+			"name": "Weather History_ByID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var data = pm.response.json();\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(data.stationId).to.equal(86038);\r",
+							"  pm.expect(data.cloudCover).to.equal(6);\r",
+							"  pm.expect(data.temperature).to.equal(11);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/WeatherHistory/66214/1672563600",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"WeatherHistory",
+						"66214",
+						"1672563600"
+					]
+				},
+				"description": "Weather history with station id and timestamp"
+			},
+			"response": []
+		},
+		{
+			"name": "Weather Locations_All",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"const WLCount = parseInt(pm.environment.get(\"WeatherLocationCount\"))\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(WLCount);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/WeatherLocations",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"WeatherLocations"
+					]
+				},
+				"description": "Weather location validations"
+			},
+			"response": []
+		},
+		{
+			"name": "Weather Location_ByID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"const WLStationId =  parseInt(pm.environment.get(\"WLstationId\"));\r",
+							"const WLlatitude =  parseFloat(pm.environment.get(\"WLlatitude\"));\r",
+							"const WLlongitude = parseFloat(pm.environment.get(\"WLlongitude\"))\r",
+							"console.log(WLlongitude)\r",
+							"var data = pm.response.json();\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  \r",
+							"  pm.expect(data.stationId).to.equal(WLStationId);\r",
+							"  pm.expect(data.latitude).to.equal(WLlatitude);\r",
+							"  pm.expect(data.longitude).to.equal(WLlongitude);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/WeatherLocations/66214",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"WeatherLocations",
+						"66214"
+					]
+				},
+				"description": "Validation weather location with given station id"
+			},
+			"response": []
+		},
+		{
+			"name": "Endpointmodel_All",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(2);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/EndPointModel",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"EndPointModel"
+					]
+				},
+				"description": "Endpoint model response validation with 200 and count"
+			},
+			"response": []
+		},
+		{
+			"name": "Endpointmodel_ByID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var data = pm.response.json();\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(data.modelId).to.equal(1);\r",
+							"  pm.expect(data.endPointType).to.equal(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/EndPointModel/0",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"EndPointModel",
+						"0"
+					]
+				},
+				"description": "Endpoint model validation with model id and response code"
+			},
+			"response": []
+		},
+		{
+			"name": "Topology_All",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(862);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseAPIUrl}}/Topology",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"Topology"
+					]
+				},
+				"description": "Topology get all and vaidation with count and response"
+			},
+			"response": []
+		},
+		{
+			"name": "Topology_ByID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var data = pm.response.json();\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(data.ndeId).to.equal(\"TFMR10000005\");\r",
+							"  pm.expect(data.nodeType).to.equal(2);\r",
+							"  pm.expect(data.parentNodeId).to.equal(\"BRKR10000004\")\r",
+							"  pm.expect(data.latitude).to.equal(28.042917)\r",
+							"  pm.expect(data.longitude).to.equal(-82.446980)\r",
+							"  pm.expect(data.endPointType).to.equal(1)\r",
+							"  pm.expect(data.phaseOnParent).to.equal(3)\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/Topology/SP10000019",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"Topology",
+						"SP10000019"
+					]
+				},
+				"description": "Validating topology response with nodeid and reponse code"
+			},
+			"response": []
+		},
+		{
+			"name": "Simulated Readings-Single-SPs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(862);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{  //\"startTime\": 1719194700,  \r\n    \"endTime\": 1719195000,    \r\n   \"aggInterval\": 5,\r\n   \"type\": \"servicepoint\",\r\n   \"id\":\r\n    [ \r\n    \"SP2002285956\"\r\n    ],\r\n   \"get\": \r\n   [\r\n    \r\n    \"wh\",\r\n    \"whr\",\r\n    \"whd\",\r\n    \"avgv\" ,\r\n    \"varh\"   \r\n        \r\n          ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/readings",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"readings"
+					]
+				},
+				"description": "Topology get all and vaidation with count and response"
+			},
+			"response": []
+		},
+		{
+			"name": "Simulated Readings-Multiple Endpoint Ids for servicepoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(862);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \"startTime\": 1716462000,//Time:May 23, 2024 11:00:00 AM\r\n   \"endTime\": 1716463800,  //Time:May 23, 2024 11:30:00 AM\r\n   \"aggInterval\": 5,//Aggregation Interval can be \"5,15,30,60\"\r\n   \"type\": \"servicepoint\",\r\n   \"id\":\r\n    [ \r\n    \"SP10000006\",\"SP10000017\"\r\n    ],\r\n   \"get\": \r\n   [\r\n    \"wh\",     //Watt hour\r\n    \"varh\",   //Active energy\r\n    \"avgv\"    //Average Voltage\r\n   ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/readings",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"readings"
+					]
+				},
+				"description": "Topology get all and vaidation with count and response"
+			},
+			"response": []
+		},
+		{
+			"name": "Simulated Readings- Multiple MacID with type Macaddress",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(862);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"endTime\": 1719757800,\r\n  \"aggInterval\": 30,\r\n  \"type\": \"servicepoint\",\r\n  \"id\": [\r\n    \"SP2002285900 \"\r\n  ],\r\n  \"get\": [\r\n    \"wh\",\r\n    \"gl\",\r\n    \"cl\",\r\n    \"gg\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/readings",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"readings"
+					]
+				},
+				"description": "Topology get all and vaidation with count and response"
+			},
+			"response": []
+		},
+		{
+			"name": "Simulated Readings-Phase-1-Substation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(862);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startTime\":1718197200,  \r\n    \"endTime\": 1718199000,   \r\n  \"aggInterval\": 5,        //Aggregation Interval can be \"5,15,30,60\"\r\n  \"type\": \"substation\",\r\n  \"id\": [\r\n    \"SUB10000000\"\r\n  ],\r\n  \"get\": [\r\n    \"wh\"    //Watt hour\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/readings",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"readings"
+					]
+				},
+				"description": "Topology get all and vaidation with count and response"
+			},
+			"response": []
+		},
+		{
+			"name": "Simulated Readings-Phase-1-Feeder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(862);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startTime\":1718197200,  //Time:June,12,1pm , 2024\r\n  \"endTime\": 1718199000,   //Time:June,12,1:30pm, 2024\r\n  \"aggInterval\": 5,        //Aggregation Interval can be \"5,15,30,60\"\r\n  \"type\": \"Feeder\",\r\n  \"id\": [\r\n    \"FDR10000001\"\r\n  ],\r\n  \"get\": [\r\n    \"wh\" //Watt hour   \r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/readings",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"readings"
+					]
+				},
+				"description": "Topology get all and vaidation with count and response"
+			},
+			"response": []
+		},
+		{
+			"name": "Simulated Readings-Multiple Transformer Ids",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(862);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startTime\":1718894400,  \r\n  \"endTime\": 1718896200,   \r\n  \"aggInterval\": 5,        //Aggregation Interval can be \"5,15,30,60\"\r\n  \"type\": \"Transformer\",\r\n  \"id\": [\r\n    \"TFMR62481830\"\r\n  ],\r\n  \"get\": [\r\n    \"wh\",\r\n    \"varh\"    //Watt hour\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/readings",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"readings"
+					]
+				},
+				"description": "Topology get all and vaidation with count and response"
+			},
+			"response": []
+		},
+		{
+			"name": "Simulated Readings-Phase-1-Two TFMRS (under same Breaker) after cap",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = pm.response.json();\r",
+							"var responseCount = data.count()\r",
+							"console.log(responseCount)\r",
+							"\r",
+							"pm.test(\"Total responses should be equal\", function() {\r",
+							"  pm.expect(responseCount).to.equal(862);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"startTime\":1718197200,  //Time:January 5, 2024 1:30:00 PM\r\n  \"endTime\": 1718199000,   //Time:January 5, 2024 3:00:00 PM\r\n  \"aggInterval\": 5,        //Aggregation Interval can be \"5,15,30,60\"\r\n  \"type\": \"Transformer\",\r\n  \"id\": [\r\n    \"TFMR10000005\",\"TFMR10000023\"\r\n  ],\r\n  \"get\": [\r\n    \"wh\"    //Watt hour\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/readings",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"readings"
+					]
+				},
+				"description": "Topology get all and vaidation with count and response"
+			},
+			"response": []
+		},
+		{
+			"name": "Apply controlcap_apply for Servicepoints",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"servicepoint\",\r\n  \"id\": [\r\n    \"SP10000019\"\r\n  ],\r\n  \"time\": {\r\n    \"startTime\": 1718553600,\r\n    \"endTime\": 1718555400   \r\n    // (or) \"duration\": 0\r\n  },\r\n  \"cap\": {\r\n    \"export\": 0.15,\r\n    \"generation\": 20,\r\n    \"load\": 0.25\r\n\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/controlcap",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"controlcap"
+					]
+				},
+				"description": "skip one or two files in static data put , and test should be passed"
+			},
+			"response": []
+		},
+		{
+			"name": "Apply controlcap_Breaker_state",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"breaker\",\r\n  \"id\": [\r\n    \"BRKR10000003\"\r\n  ],\r\n  \"time\": {\r\n    \"startTime\": 1709289000,//Time:March 1, 2024 10:30:00 AM\r\n    \"endTime\": 1709289900   //Time:March 1, 2024 10:45:00 AM\r\n    //(or)\"duration\":0\r\n \r\n  },\r\n  \"cap\": {\r\n   \"IsCircuitOpen\":true\r\n\r\n  }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/controlcap",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"controlcap"
+					]
+				},
+				"description": "skip one or two files in static data put , and test should be passed"
+			},
+			"response": []
+		},
+		{
+			"name": "Read Controlcap_servicepoint",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/controlcap/SP10000017",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"controlcap",
+						"SP10000017"
+					]
+				},
+				"description": "Test staticdata put api call for sequence change in payload."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Controlcap_Controldata_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"controlDataId\": \r\n  [\r\n    \"CD10000014\"\r\n  ]\r\n\r\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/controlcap",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"controlcap"
+					]
+				},
+				"description": "Test staticdata put api call for sequence change in payload."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Controlcap_node_Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": [\r\n    \"SP10000017\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/controlcap",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"controlcap"
+					]
+				},
+				"description": "Test staticdata put api call for sequence change in payload."
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Weather Override_stationid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"stationId\": 66214,\r\n  \"cloudcover\": 4,\r\n  \"temperature\": 28\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/weather",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"weather"
+					]
+				},
+				"description": "skip one or two files in static data put , and test should be passed"
+			},
+			"response": []
+		},
+		{
+			"name": "Read Weather Override_stationid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/weather/66214/1716463800",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"weather",
+						"66214",
+						"1716463800"
+					]
+				},
+				"description": "Test staticdata put api call for sequence change in payload."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Weather Override_stationid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseAPIUrl}}/weather/66214",
+					"host": [
+						"{{BaseAPIUrl}}"
+					],
+					"path": [
+						"weather",
+						"66214"
+					]
+				},
+				"description": "Test staticdata put api call for sequence change in payload."
+			},
+			"response": []
+		}
+	]
+}
