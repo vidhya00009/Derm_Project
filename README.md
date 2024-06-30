@@ -11,3 +11,4 @@
 ![image](https://github.com/vidhya00009/Derm_Project/assets/150995591/7bf260e6-3230-44d3-8a2b-f7ca7d3586f4)
 
 
+![image](https://github.com/vidhya00009/Derm_Project/assets/150995591/b53a6e9b-11cc-4b57-bd2d-da2ad692f694)
